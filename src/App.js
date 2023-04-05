@@ -3,8 +3,6 @@ import React, { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './component/login/login';
 import List from './component/list/list';
 import Detail from './component/detail/detail';
-import Form from './component/form/form';
-import Test from './component/Test';
 import Callback from './component/token/callback';
 // import Navbar from './component/Navbar/navbar'
 
@@ -39,8 +37,6 @@ function App() {
           <Route path='/loading' element={<Callback />}></Route>
           <Route path='/list' element={<List />}></Route>
           <Route path='/detail/:full_name/:repo/:number' element={<Detail />}></Route>
-          <Route path='/addform' element={<Form />}></Route>
-          <Route path='/test' element={<Test />}></Route>
         </Routes>
       </BrowserRouter>
     </>
