@@ -19,7 +19,6 @@ function Callback() {
     const tokenResponse = async () => {
       const res = await axios({
         method: 'post',
-
         url: `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
         headers: {
           accept: 'application/json',
