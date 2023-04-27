@@ -3,8 +3,9 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 // 引入Ｃookies 變數已存在cookies裡面了～
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import { Form, Button } from 'semantic-ui-react';
-//LabelDetail
+//form表單驗證
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMagnifyingGlass,
@@ -13,7 +14,24 @@ import {
   faArrowPointer,
   faCaretLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import { useForm } from 'react-hook-form';
+
+import {
+  Background,
+  SearchInput,
+  Filter,
+  DirectionButton,
+  FormBackground,
+  HintWord,
+  CreateButton,
+  Img,
+  ListBackground,
+  ListCard,
+  ListWord,
+  ListBody,
+  Label,
+  SearchHint,
+} from './list_style';
+// labelcolor設置->object
 const labelColorMap = {
   open: { backgroundColor: '	#00BB00', color: 'white', borderRadius: '5px', width: '50px' },
   'in progress': {
@@ -28,9 +46,13 @@ const labelColorMap = {
 
 function List() {
   const cookies = new Cookies();
-  //ok  console.log('cookies Token 是什麼', cookies.get('authToken'));
+  //api:Authorization: `Bearer ${cookies.get('authToken')}`需要token
   // token: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
-
+  const [page, setPage] = useState(1);
+  const [direction, setDirection] = useState('desc');
+  const [filterLabel, setFilterLabel] = useState(''); // '' | 'done' | 'in progress'
+  const [issues, setIssues] = useState([]);
+  const [searchData, setSearchData] = useState([]);
   const [addTask, setAddTask] = useState(false);
   // const [title, setTitle] = useState();
   const [labelsName, setLabelsName] = useState([]);
@@ -38,30 +60,27 @@ function List() {
   // const [repo, setRepo] = useState();
   const [keyword, setKeyword] = useState();
   const [showSearchData, setShowSearchData] = useState(false);
-  const [searchData, setSearchData] = useState([]);
-  const [direction, setDirection] = useState('desc');
-  const [filterLabel, setFilterLabel] = useState(''); // '' | 'done' | 'in progress'
-  const [issues, setIssues] = useState([]);
-  const [page, setPage] = useState(1);
   const observer = useRef(null);
 
-  // each render create new
+  // 3 callback reference:each render create new
   // lastElementRef(null)
   // lastElementRef(DOMElement)
   const lastElementRef = useCallback(
     (node) => {
+      //no duplicated data : when taking data return nothing(don't do anything)
       if (issues.length < page * 8) return;
 
+      //don't take data:stop to observe 避免觸發observer callback function
       if (observer.current) {
         observer.current.disconnect();
       }
-
+      //create new IntersectionObserver 避免取到舊值
       observer.current = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
           setPage((page) => page + 1);
         }
       });
-
+      //element!==null 將element納入observer的觀察對象。
       if (node) {
         observer.current.observe(node);
       }
@@ -69,12 +88,7 @@ function List() {
     [issues, page],
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  // 1 list data:api(List issues assigned to the authenticated user)
   const getList = async () => {
     try {
       const { data: issuesData } = await axios({
@@ -88,17 +102,26 @@ function List() {
       });
 
       const res = issuesData;
-      console.log('res', issuesData);
+      // console.log('res', issuesData);
       setIssues((issues) => [...issues, ...res]);
+      // add new data to issues(array) and map it ,render to ui
     } catch (error) {
       console.log(error);
     }
   };
 
+  // 1 first render: getList() default page=1,[change] re-render
   useEffect(() => {
     console.log('page', page);
     getList();
   }, [page, filterLabel, direction]);
+
+  //hooks can  only call from React functions.
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     function createData() {
@@ -108,10 +131,10 @@ function List() {
           {
             repo: `${data.repoName}`,
             title: `${data.titleName}`,
-            labels: [data.label], //labels參數是一陣列
+            labels: [data.label], //labels is array
             body: `${data.body}`,
             assignee: `${issues[0].user.login}`,
-            //create時直接assign給自己
+            //create : assign to myself
           },
           {
             headers: {
@@ -124,14 +147,13 @@ function List() {
         .then((res) => {
           console.log(res.data);
           getList();
-
-          //call API新增後再call getList()
+          //call API add new task and call getList() re-render
         });
     }
     createData();
   };
 
-  //搜尋資料
+  //2 search and get data api(Search issues and pull requests)
   function getSearchData() {
     axios
       .get(
@@ -145,7 +167,7 @@ function List() {
       )
 
       .then((res) => {
-        console.log('items', res.data.items); //是陣列>>map
+        // console.log('items', res.data.items); map it（array)
         setSearchData(res.data.items);
         console.log('res', res);
       });
@@ -164,35 +186,21 @@ function List() {
 
   return (
     <>
-      <div
-        // onClick={() => {
-        //   setAddTask(false);
-        // }}
-        style={{
-          backgroundColor: '		#D8D8EB',
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        {/* 搜尋區塊 */}
-        <input
-          style={{
-            borderRadius: '200px ',
-            margin: '10px',
-            width: '450px',
-            height: '30px',
-          }}
-          type='text'
+      <Background>
+        <SearchInput
           onChange={(e) => {
             setKeyword(e.target.value);
           }}
-        ></input>
-        <button
+        />
+
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
           style={{
-            background: 'white',
+            fontSize: '30px',
+            color: '#8e8e8e',
             border: 'none',
             outline: 'none',
-            margin: '20px 2px 5px 0px ',
+            margin: '25px 3px -2px -5px ',
             backgroundColor: 'rgba(0,0,0,0)',
             cursor: 'pointer',
           }}
@@ -200,13 +208,9 @@ function List() {
             getSearchData();
             setShowSearchData(true);
           }}
-        >
-          <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '25px' }} />
-        </button>
+        />
 
-        {/* 篩選區塊 */}
-        <select
-          style={{ marginLeft: '300px', width: '90px', fontFamily: 'serif', cursor: 'pointer' }}
+        <Filter
           onChange={(e) => {
             setIssues([]);
             setPage(1);
@@ -217,44 +221,19 @@ function List() {
           <option value='open'> open </option>
           <option value='in progress'> in progress</option>
           <option value='done'> done</option>
-        </select>
+        </Filter>
 
         {/* 排序區塊 */}
-        <button
-          style={{
-            backgroundColor: 'rgba(0,0,0,0)',
-            border: 'none',
-            cursor: 'pointer',
-            marginLeft: '40px',
-            borderRadius: '200px ',
-          }}
-          onClick={sortByDateAsc}
-        >
+        <DirectionButton onClick={sortByDateAsc}>
           {direction === 'asc' ? (
             <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '25px' }} />
           ) : (
             <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '25px' }} />
           )}
-        </button>
+        </DirectionButton>
 
-        <div
-          style={{
-            backgroundColor: '	#A3D1D1',
-            borderColor: '	#3D7878',
-            position: 'absolute',
-            width: '550px',
-            height: '500px',
-            margin: '0 auto',
-            right: '0',
-            left: '0',
-            top: '100px',
-
-            borderRadius: '5px',
-            display: addTask ? 'block' : 'none',
-            padding: '10px',
-            zIndex: '4',
-          }}
-        >
+        {/* form create new task */}
+        <FormBackground style={{ display: addTask ? 'block' : 'none' }}>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Field>
               <label>Repo Name</label>
@@ -263,54 +242,28 @@ function List() {
                 type='text'
                 // onChange={(e) => {
                 //   setRepo(e.target.value);
-                // }}
+                // }}  use register to get vaule,and may console data,just take data to call api (create new task)
                 {...register('repoName', { required: true })}
               ></input>
             </Form.Field>
-            {errors.repoName && (
-              <p style={{ color: 'red', fontWeight: '500' }}>Please input the RepoName</p>
-            )}
+            {errors.repoName && <HintWord>Please input the RepoName</HintWord>}
             <Form.Field>
               <label>Title</label>
               <input
                 placeholder='Title'
                 type='text'
-                // onChange={(e) => {
-                //   setTitle(e.target.value);
-                // }}
-                {...register(
-                  'titleName',
-                  { required: true },
-                  // {
-                  //   onChange: (e) => {
-                  //     // setTitle(TitleName);
-                  //     console.log(e.target.value);
-                  //   },
-                  // },
-                )}
+                {...register('titleName', { required: true })}
               ></input>
             </Form.Field>
-            {errors.titleName && (
-              <p style={{ color: 'red', fontWeight: '500' }}>Please input the TitleName</p>
-            )}
+            {errors.titleName && <HintWord>Please input the RepoName</HintWord>}
             <Form.Field>
               <label>Labels</label>
-              {/* <input
-              placeholder='Labels'
-              onChange={(e) => {
-                setLabelsName(e.target.value);
-              }}
-            ></input> */}
+
               <select
                 onChange={(e) => {
                   setLabelsName([...labelsName, e.target.value]);
                 }}
-                {...register('label', {
-                  // onChange: (e) => {
-                  //   // setLabelsName([...labelsName, label]);
-                  //   console.log(e.target.value);
-                  // },
-                })}
+                {...register('label', {})}
               >
                 <option value='open'> open </option>
                 <option value='in progress'> in progress</option>
@@ -322,58 +275,24 @@ function List() {
               <input
                 placeholder='Descriptions'
                 type='text'
-                // onChange={(e) => {
-                //   setBody(e.target.value);
-                // }}
-                {...register(
-                  'body',
-                  { required: true, minLength: 30 },
-                  {
-                    // onChange: (e) => {
-                    //   // setBody(Descriptions);
-                    //   console.log(e.target.value);
-                    // },
-                  },
-                )}
+                {...register('body', { required: true, minLength: 30 }, {})}
               ></input>
             </Form.Field>
             {errors.body && (
-              <p style={{ color: 'red', fontWeight: '500' }}>Please input 30 words at least</p>
+              <HintWord>
+                Please input the RepoName
+                {/* </p> */}
+              </HintWord>
             )}
-            <Button
-              type='submit'
-              // onClick={() => {
-              //   setAddTask(false);
-              //   createData();
-              // }}
-            >
-              Submit
-            </Button>
+            <Button type='submit'>Submit</Button>
             <Button onClick={() => setAddTask(false)}>cancel</Button>
           </Form>
-        </div>
+        </FormBackground>
 
         {/* create task 按鈕 */}
-        <button
-          onClick={() => setAddTask(true)}
-          style={{
-            fontFamily: 'serif',
-            fontSize: '23px',
-            border: 'none',
-            width: '120px ',
-            borderRadius: '50%',
-            backgroundColor: '	#95CACA',
-            color: 'white',
-            fontWeight: '900',
-            position: 'fixed',
-            right: '100px',
-            bottom: '160px',
-            zIndex: 1,
-            cursor: 'pointer',
-          }}
-        >
+        <CreateButton onClick={() => setAddTask(true)} style={{ zIndex: 1 }}>
           Create Task
-        </button>
+        </CreateButton>
 
         <FontAwesomeIcon
           icon={faArrowPointer}
@@ -388,211 +307,106 @@ function List() {
           }}
         />
 
-        {/* 貓咪圖案 */}
-        <img
-          src='images/cat2.png'
-          width={'300px'}
-          style={{ position: 'fixed', right: '100px', bottom: '20px' }}
-        />
+        <Img src='images/cat2.png'></Img>
 
         {/*主列表區塊  */}
-        <div
-          style={{
-            display: showSearchData ? 'none' : 'block',
-            fontFamily: 'serif',
-            fontSize: '20px',
-            fontWeight: '500',
-            margin: '3px 15px',
-            marginRight: '350px',
-          }}
-        >
+        <ListBackground style={{ display: showSearchData ? 'none' : 'block' }}>
           {issues.map((issue, index) => (
-            <div
+            <ListCard
+              // 綁定infinite scroll
               ref={index === issues.length - 1 ? lastElementRef : undefined}
-              style={{
-                border: 'solid 1px 		#B8B8DC',
-                // backgroundImage: 'linear-gradient(to right, #c9d6ff, #e2e2e2)',
-                background: 'white',
-                borderRadius: '5px',
-                height: '150px',
-                width: '1000px',
-                padding: '15px',
-              }}
               key={issue.id}
             >
+              <Label>
+                {issue.labels.map((label) => (
+                  <div key={label.name} style={labelColorMap[label.name]}>
+                    {label.name}
+                  </div>
+                ))}
+              </Label>{' '}
+              <br></br>
+              {/* app.js set route,and all card is a link */}
               <Link
                 to={`/detail/${issue.repository.full_name}/${issue.number}`}
                 style={{ textDecoration: 'none' }}
               >
-                {/* <b style={{ color: 'red' }}>{issue.id}</b> */}
-                <b style={{ margin: '10px', fontSize: '20px', fontWeight: '600' }}>
-                  {' '}
-                  {issue.repository.full_name}
-                </b>
-                <button
-                  style={{
-                    margin: '3px 10px',
-                    fontSize: '20px',
-                    border: 'none',
-                    borderRadius: '10px',
-                    marginLeft: '650px',
-                    backgroundColor: 'transparent',
-                  }}
-                >
-                  {issue.labels.map((label) => (
-                    <div key={label.name} style={labelColorMap[label.name]}>
-                      {label.name}
-                    </div>
-                  ))}
-                </button>
-                {/* <Link
-                to={`/detail/${issue.repository.full_name}/${issue.number}`}
-                style={{ textDecoration: 'none' }}
-              > */}{' '}
-                <div style={{ margin: '3px 10px', fontSize: '25px' }}>{issue.title}</div>
-                <div
-                  style={{
-                    margin: '3px 10px',
-                    fontSize: '15px',
-                    maxWidth: '600px',
-                    lineHeight: '18px',
-                    maxHeight: '36px',
-                    overflow: 'hidden',
-
-                    textOverflow: 'ellipsis',
-
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {issue.body}
-                </div>
+                <ListWord> {issue.repository.full_name}</ListWord> <br />
+                <ListWord>{issue.title}</ListWord>
+                <ListBody>{issue.body}</ListBody>
                 (...read more)
-                <p style={{ color: 'black', margin: '10px 10px', fontSize: '18px' }}>
+                <p
+                  style={{
+                    color: '#8E8E8E',
+                    margin: ' 20px 10px',
+                    fontSize: '18px',
+                  }}
+                >
                   {issue.created_at}{' '}
                 </p>
               </Link>
-            </div>
+            </ListCard>
           ))}
           {/* <div ref={loadingRef}>loading...</div> */}
-        </div>
-        <div>
-          <button
-            onClick={() => setShowSearchData(false)}
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              fontSize: '15px',
-              fontWeight: '600',
-              margin: '5px 10px',
-              display: showSearchData ? 'block' : 'none',
-            }}
-          >
-            {' '}
-            <FontAwesomeIcon icon={faCaretLeft} beat style={{ fontSize: '20px' }} />
-            返回列表頁
-          </button>
-        </div>
+          {/* </div> */}
+        </ListBackground>
 
-        <div
+        {/* 搜尋結果 */}
+
+        <SearchHint
+          onClick={() => setShowSearchData(false)}
           style={{
             display: showSearchData ? 'block' : 'none',
-            margin: '10px 20px',
-            fontSize: '15px',
-            fontWeight: '600',
+            cursor: 'pointer',
+          }}
+        >
+          {' '}
+          <FontAwesomeIcon icon={faCaretLeft} beat style={{ fontSize: '20px' }} />
+          返回列表頁
+        </SearchHint>
+
+        <SearchHint
+          style={{
+            display: showSearchData ? 'block' : 'none',
           }}
         >
           已搜尋到結果如下
-        </div>
+        </SearchHint>
 
-        <div
-          style={{
-            backgroundColor: '#D8D8EB',
-            width: '100%',
-            height: '100vh',
-          }}
-        >
-          <div
-            style={{
-              ontFamily: 'serif',
-              fontSize: '20px',
-              fontWeight: '500',
-              margin: '3px 15px',
-              marginRight: '350px',
-            }}
-          >
-            {searchData.map((item) => (
-              <div
-                style={{
-                  border: 'solid 1px 		#B8B8DC',
-                  // backgroundImage: 'linear-gradient(to right, #c9d6ff, #e2e2e2)',
-                  background: 'white',
-                  borderRadius: '5px',
-                  height: '150px',
-                  width: '1000px',
-                  padding: '15px',
-                }}
-                key={item.number}
+        <ListBackground style={{ width: '100%', height: '100vh' }}>
+          {searchData.map((item) => (
+            <ListCard key={item.number}>
+              <Label>
+                {item.labels.map((label) => (
+                  <span key={label.name} style={labelColorMap[label.name]}>
+                    {label.name}
+                  </span>
+                ))}
+              </Label>{' '}
+              <br></br>
+              <Link
+                to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
+                  item.number
+                }`}
               >
+                <ListWord>{item.repository_url.split('https://api.github.com/repos/')[1]}</ListWord>
+                <br />
+                <ListWord>{item.title}</ListWord>
+                <ListBody>{item.body}</ListBody>
+                (...read more)
                 <p
                   style={{
-                    margin: '5px',
-                    fontSize: '10px',
-                    fontWeight: '600',
-                    fontFamily: 'serif',
+                    color: '#8E8E8E',
+                    margin: ' 20px 10px',
+                    fontSize: '18px',
                   }}
                 >
-                  {item.repository_url.split('https://api.github.com/repos/')[1]}
-                  <Link
-                    to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
-                      item.number
-                    }`}
-                  >
-                    <p style={{ fontSize: '20px' }}>{item.title}</p>
-                    <div
-                      style={{
-                        margin: '3px 10px',
-                        fontSize: '18px',
-                        maxWidth: '600px',
-                        lineHeight: '14px',
-                        maxHeight: '28px',
-                        overflow: 'hidden',
-                        color: 'gray',
-                        textOverflow: 'ellipsis',
-
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {item.body}
-                      (...read more)
-                    </div>
-                    <div>
-                      <button
-                        style={{
-                          margin: '3px 10px',
-                          fontSize: '20px',
-                          border: 'none',
-                          borderRadius: '10px',
-                          marginLeft: '700px',
-                          backgroundColor: 'transparent',
-                        }}
-                      >
-                        {item.labels.map((label) => (
-                          <span key={label.name} style={labelColorMap[label.name]}>
-                            {label.name}
-                          </span>
-                        ))}
-                      </button>
-                    </div>{' '}
-                    <p style={{ color: 'black', margin: '4px 10px', fontSize: '18px' }}>
-                      {item.created_at}
-                    </p>{' '}
-                  </Link>
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+                  {item.created_at}
+                </p>{' '}
+              </Link>
+            </ListCard>
+          ))}
+        </ListBackground>
+      </Background>
     </>
   );
 }
