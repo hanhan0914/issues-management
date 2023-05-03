@@ -112,16 +112,6 @@ function Detail() {
       });
   }
 
-  // const dataTitle =data.map((data)=>
-  // <p key={data.title}>{data.title}</p>)
-
-  // const dataTitle=data.title
-
-  // const assignee=issue.assignee.map((assignee)=>
-  // <p key={assignee.login}>{assignee.login}</p>)
-
-  // 測試url : console.log(`https://api.github.com/repos/${issueurl.full_name}/${issueurl.repo}/issues/${issueurl.number}`)
-
   return (
     <>
       <Background>
@@ -196,35 +186,48 @@ function Detail() {
               ></InputBody>{' '}
             </div>
             <div style={{ margin: '15px' }}>
-              <button
+              <Editbutton
                 onClick={() => {
                   setShowInput(false);
                   updateData();
                 }}
-                style={{ margin: '8px' }}
+                style={{ margin: '8px', fontSize: '20px' }}
               >
                 修改
-              </button>
+              </Editbutton>
 
               {/* input輸入資料後 onchange同步顯示輸入資料 button點選後把input關掉 拿取修改值並顯示於畫面。如何打api？直接在onclick打api */}
-              <button onClick={() => setShowInput(false)}>取消</button>
+              <Editbutton onClick={() => setShowInput(false)}>取消</Editbutton>
             </div>
           </div>
+
           <Popup
             style={{
               display: showPopUp ? 'block' : 'none',
             }}
           >
-            <p style={{ fontSize: '20px', margin: '3px' }}>確定要刪除資料嗎？</p>
-            <button
+            <p style={{ fontSize: '20px', margin: '25px', textAlign: 'center' }}>
+              確定要刪除資料嗎？
+            </p>
+            <Editbutton
               onClick={() => {
                 deleteIssue();
               }}
-              style={{ margin: '3px', marginTop: '20px' }}
+              style={{
+                marginLeft: '50px',
+                marginTop: '20px',
+                backgroundColor: 'white',
+                border: 'solid 1px',
+              }}
             >
               確認
-            </button>
-            <button onClick={() => setshowPopUp(false)}>取消</button>
+            </Editbutton>
+            <Editbutton
+              onClick={() => setshowPopUp(false)}
+              style={{ backgroundColor: 'white', margin: '5px', border: 'solid 1px' }}
+            >
+              取消
+            </Editbutton>
           </Popup>
         </Body>
       </Background>
