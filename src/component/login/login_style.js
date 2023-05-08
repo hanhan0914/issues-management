@@ -29,9 +29,16 @@ export const LoginButton = styled.button`
   height: 80px;
   position: relative;
   left: 50%;
-  transform: translate(-50%, 470%);
+  transform: translate(-50%, 510%);
   cursor: pointer;
   z-index: 2;
+  &:hover {
+    transition-timing-function: ease;
+    transition-delay: 0.3s;
+    width: 280px;
+    height: 80px;
+    font-size: 42px;
+  }
 
   // button 屬性修改
   font-weight: border;
