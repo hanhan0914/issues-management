@@ -22,12 +22,17 @@ export const Background = styled.div`
 export const SearchInput = styled.input`
   border-radius: 200px;
   margin: 10px 10px 10px 100px;
-  width: 450px;
-  height: 40px;
+  width: 400px;
+  height: 30px;
   type: text;
   border: solid 2px #8e8e8e;
   @media screen and (max-width: 635px) {
     margin: 10px 10px 10px 30px;
+  }
+  &:hover {
+    cursor: help;
+    width: 550px;
+    height: 40px;
   }
 `;
 
@@ -40,6 +45,9 @@ export const Filter = styled.select`
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
   @media screen and (max-width: 1400px) {
     margin-left: 150px;
   }
@@ -62,17 +70,20 @@ export const DirectionButton = styled.button`
   cursor: pointer;
   margin-left: 20px;
   border-radius: 200px;
+  &:hover {
+    transform: scale(1.3);
+  }
   @media screen and (max-width: 840px) {
     margin-left: 5px;
   }
 `;
 
 export const FormBackground = styled.div`
-  background-color: #a3d1d1;
+  background-color: rgba(163, 209, 209, 0.95);
   border-color: #3d7878;
   position: absolute;
-  width: 550px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   margin: 0 auto;
   right: 0;
   left: 0;
@@ -101,6 +112,9 @@ export const CreateButton = styled.button`
   right: 100px;
   bottom: 160px;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
   @media screen and (max-width: 1180px) {
     width: 80px;
     bottom: 120px;
@@ -129,6 +143,7 @@ export const ListBackground = styled.div`
   font-weight: 800;
   margin: 3px 80px;
   margin-right: 350px;
+
   @media screen and (max-width: 635px) {
     margin: 3px 40px;
   }
@@ -136,11 +151,17 @@ export const ListBackground = styled.div`
 
 export const ListCard = styled.div`
   border: solid 3px #b8b8dc;
-  background: white;
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 5px;
   height: 200px;
   width: 920px;
   padding: 15px;
+  &:hover {
+    background-color: rgba(172, 214, 255, 0.3);
+    cursor: pointer;
+    color: #0066cc;
+    transform: scale(1.03);
+  }
   @media screen and (max-width: 1400px) {
     width: 800px;
     padding: 15px;
@@ -190,4 +211,12 @@ export const SearchHint = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin: 10px 80px;
+`;
+
+export const Navbar = styled.div`
+  margin: 0px 0px 30px 0px;
+  background-color: #d8d8eb;
+  &:hover {
+    background-color: #b8b8dc;
+  }
 `;

@@ -6,6 +6,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'semantic-ui-react';
 //form表單驗證
+import 'wired-elements';
+
+// import { WiredCombo } from 'wired-elements';
+// import { WiredSearchInput } from 'wired-elements';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMagnifyingGlass,
@@ -30,6 +35,7 @@ import {
   ListBody,
   Label,
   SearchHint,
+  Navbar,
 } from './list_style';
 // labelcolor設置->object
 const labelColorMap = {
@@ -186,51 +192,71 @@ function List() {
 
   return (
     <>
-      <Background>
-        <SearchInput
-          onChange={(e) => {
-            setKeyword(e.target.value);
-          }}
-        />
+      <Background
+        style={{
+          minHeight: '100vh',
+          padding: '20px 0',
+          backgroundImage: 'url(images/background2.jpg)',
+        }}
+      >
+        <Navbar>
+          <SearchInput
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
+          />
 
-        <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          style={{
-            fontSize: '30px',
-            color: '#8e8e8e',
-            border: 'none',
-            outline: 'none',
-            margin: '25px 3px -2px -5px ',
-            backgroundColor: 'rgba(0,0,0,0)',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            getSearchData();
-            setShowSearchData(true);
-          }}
-        />
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            style={{
+              fontSize: '30px',
+              color: '#8e8e8e',
+              border: 'none',
+              outline: 'none',
+              margin: '25px 3px -2px -5px ',
+              backgroundColor: 'rgba(0,0,0,0)',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              getSearchData();
+              setShowSearchData(true);
+            }}
+          />
 
-        <Filter
-          onChange={(e) => {
-            setIssues([]);
-            setPage(1);
-            setFilterLabel(`${e.target.value}`);
-          }}
-        >
-          <option value=''>All</option>
-          <option value='open'> open </option>
-          <option value='in progress'> in progress</option>
-          <option value='done'> done</option>
-        </Filter>
+          <Filter
+            onChange={(e) => {
+              setIssues([]);
+              setPage(1);
+              setFilterLabel(`${e.target.value}`);
+            }}
+          >
+            <option value=''>All</option>
+            <option value='open'> open </option>
+            <option value='in progress'> in progress</option>
+            <option value='done'> done</option>
+          </Filter>
+          {/* // <wired-combo
+          //   onChange={(e) => {
+          //     setIssues([]);
+          //     setPage(1);
+          //     setFilterLabel(`${e.target.value}`);
+          //   }}
+          // >
+          //   <wired-item value=''>all</wired-item>
+          //   <wired-item value='open'>open</wired-item>
+          //   <wired-item value='in progress'>in progress</wired-item>
+          //   <wired-item value='done'>done</wired-item>
+          // </wired-combo> */}
 
-        {/* 排序區塊 */}
-        <DirectionButton onClick={sortByDateAsc}>
-          {direction === 'asc' ? (
-            <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '25px' }} />
-          ) : (
-            <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '25px' }} />
-          )}
-        </DirectionButton>
+          {/* 排序區塊 */}
+          <DirectionButton onClick={sortByDateAsc}>
+            {direction === 'asc' ? (
+              <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '25px' }} />
+            ) : (
+              <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '25px' }} />
+            )}
+          </DirectionButton>
+        </Navbar>
 
         {/* form create new task */}
         <FormBackground style={{ display: addTask ? 'block' : 'none' }}>
@@ -255,7 +281,7 @@ function List() {
                 {...register('titleName', { required: true })}
               ></input>
             </Form.Field>
-            {errors.titleName && <HintWord>Please input the RepoName</HintWord>}
+            {errors.titleName && <HintWord>Please input the TitleName</HintWord>}
             <Form.Field>
               <label>Labels</label>
 
@@ -272,15 +298,16 @@ function List() {
             </Form.Field>
             <Form.Field>
               <label>Descriptions</label>
-              <input
+              <textarea
+                style={{ height: '150px' }}
                 placeholder='Descriptions'
                 type='text'
                 {...register('body', { required: true, minLength: 30 }, {})}
-              ></input>
+              ></textarea>
             </Form.Field>
             {errors.body && (
               <HintWord>
-                Please input the RepoName
+                Please input the Descriptions
                 {/* </p> */}
               </HintWord>
             )}
@@ -372,7 +399,7 @@ function List() {
           已搜尋到結果如下
         </SearchHint>
 
-        <ListBackground style={{ width: '100%', height: '100vh' }}>
+        <ListBackground style={{ width: '100%', height: '100vh', position: 'fixed' }}>
           {searchData.map((item) => (
             <ListCard key={item.number}>
               <Label>
