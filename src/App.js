@@ -4,6 +4,7 @@ import Login from './component/login/login';
 import List from './component/list/list';
 import Detail from './component/detail/detail';
 import Callback from './component/token/callback';
+import 'doodle.css/doodle.css';
 // import Navbar from './component/Navbar/navbar'
 
 function App() {
