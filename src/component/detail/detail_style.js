@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
-  background-color: #c9c0d3;
+  background-color: rgba(201, 192, 211);
   width: 100%;
   height: 100vh;
   padding: 10px;
@@ -20,7 +20,7 @@ export const Backbutton = styled.div`
 `;
 
 export const Body = styled.div`
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.7);
   width: 800px;
   height: 550px;
   z-index: 10;
@@ -102,6 +102,7 @@ export const InputTitle = styled.input`
   font-size: 40px;
   text-align: center;
   border-radius: 5px;
+  background-color: transparent;
 `;
 
 export const Select = styled.select`
@@ -111,6 +112,7 @@ export const Select = styled.select`
   border-radius: 10px;
   width: 120px;
   text-align: center;
+  background-color: transparent;
 `;
 
 export const InputBody = styled.textarea`
@@ -119,6 +121,7 @@ export const InputBody = styled.textarea`
   border: solid 1px #9d9d9d;
   margin: 10px 20px;
   border-radius: 5px;
+  background-color: transparent;
 `;
 
 export const Popup = styled.div`

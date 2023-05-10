@@ -5,20 +5,21 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'wired-elements';
 import { faArrowUpRightFromSquare, faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import {
   Background,
   Backbutton,
-  Body,
+  // Body,
   Edit,
-  Editbutton,
+  // Editbutton,
   Title,
   Label,
   Bodyword,
   InputTitle,
   Select,
   InputBody,
-  Popup,
+  // Popup,
 } from './detail_style';
 const labelColorMap = {
   open: { backgroundColor: '	#00BB00', color: 'white', borderRadius: '5px', width: '50px' },
@@ -114,7 +115,9 @@ function Detail() {
 
   return (
     <>
-      <Background>
+      <Background
+        style={{ minHeight: '100vh', padding: '20px 0', backgroundImage: 'url(images/task.jpg)' }}
+      >
         <Backbutton>
           <Link to={'/list'}>
             {' '}
@@ -123,7 +126,16 @@ function Detail() {
           </Link>
         </Backbutton>
 
-        <Body>
+        {/* <Body> */}
+        <wired-card
+          elevation='3'
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            width: '800px',
+            height: '600px',
+            zIndex: '10',
+          }}
+        >
           <Edit>
             <a href={html}>
               <FontAwesomeIcon
@@ -131,9 +143,9 @@ function Detail() {
                 style={{ fontSize: '25px', margin: '6px' }}
               />
             </a>
-            <Editbutton onClick={() => setShowInput(true)}> Edit</Editbutton>
+            <wired-button onClick={() => setShowInput(true)}> Edit</wired-button>
             &nbsp;
-            <Editbutton onClick={() => setshowPopUp(true)}>Delete</Editbutton>
+            <wired-button onClick={() => setshowPopUp(true)}>Delete</wired-button>
           </Edit>
 
           {/* title label body */}
@@ -147,6 +159,7 @@ function Detail() {
               ))}
             </Label>
             <Title> {title}</Title>
+
             {/* label修改其值並不會馬上更新！！！ */}
 
             <Bodyword> {body}</Bodyword>
@@ -186,30 +199,39 @@ function Detail() {
               ></InputBody>{' '}
             </div>
             <div style={{ margin: '15px' }}>
-              <Editbutton
+              <wired-button
                 onClick={() => {
                   setShowInput(false);
                   updateData();
                 }}
-                style={{ margin: '8px', fontSize: '20px' }}
+                style={{ margin: '8px' }}
               >
                 修改
-              </Editbutton>
+              </wired-button>
 
               {/* input輸入資料後 onchange同步顯示輸入資料 button點選後把input關掉 拿取修改值並顯示於畫面。如何打api？直接在onclick打api */}
-              <Editbutton onClick={() => setShowInput(false)}>取消</Editbutton>
+              <wired-button onClick={() => setShowInput(false)}>取消</wired-button>
             </div>
           </div>
 
-          <Popup
+          <wired-card
             style={{
               display: showPopUp ? 'block' : 'none',
+              width: '300px',
+              height: '150px',
+              backgroundColor: 'white',
+              top: '40%',
+              bottom: '60%',
+              margin: '0 auto',
+              position: 'absolute',
+              right: '0',
+              left: '0',
             }}
           >
             <p style={{ fontSize: '20px', margin: '25px', textAlign: 'center' }}>
               確定要刪除資料嗎？
             </p>
-            <Editbutton
+            <wired-button
               onClick={() => {
                 deleteIssue();
               }}
@@ -221,15 +243,17 @@ function Detail() {
               }}
             >
               確認
-            </Editbutton>
-            <Editbutton
+            </wired-button>
+            <wired-button
               onClick={() => setshowPopUp(false)}
               style={{ backgroundColor: 'white', margin: '5px', border: 'solid 1px' }}
             >
               取消
-            </Editbutton>
-          </Popup>
-        </Body>
+            </wired-button>
+          </wired-card>
+
+          {/* </Body> */}
+        </wired-card>
       </Background>
     </>
   );
