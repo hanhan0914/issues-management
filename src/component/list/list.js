@@ -39,15 +39,34 @@ import {
 } from './list_style';
 // labelcolor設置->object
 const labelColorMap = {
-  open: { backgroundColor: '	#00BB00', color: 'white', borderRadius: '5px', width: '50px' },
+  open: {
+    backgroundColor: '	#00BB00',
+    color: 'white',
+    borderRadius: '5px',
+    width: '65px',
+    fontFamily: 'Short Stack',
+  },
   'in progress': {
     backgroundColor: '#AE57A4',
     color: 'white',
     borderRadius: '5px',
-    width: '120px',
+    width: '150px',
+    fontFamily: 'Short Stack',
   },
-  done: { backgroundColor: '#0080FF', color: 'white', borderRadius: '5px' },
-  bug: { backgroundColor: 'red', color: 'white', borderRadius: '5px' },
+  done: {
+    backgroundColor: '#0080FF',
+    color: 'white',
+    borderRadius: '5px',
+    width: '70px',
+    fontFamily: 'Short Stack',
+  },
+  bug: {
+    backgroundColor: 'red',
+    color: 'white',
+    borderRadius: '5px',
+    width: '65px',
+    fontFamily: 'Short Stack',
+  },
 };
 
 function List() {
@@ -197,7 +216,9 @@ function List() {
           minHeight: '100vh',
           padding: '20px 0',
           backgroundImage: 'url(images/background2.jpg)',
+          fontFamily: 'Short Stack',
         }}
+        className='doodle'
       >
         <Navbar>
           <SearchInput
@@ -210,7 +231,7 @@ function List() {
             icon={faMagnifyingGlass}
             style={{
               fontSize: '30px',
-              color: '#8e8e8e',
+              color: 'black',
               border: 'none',
               outline: 'none',
               margin: '25px 3px -2px -5px ',
@@ -251,9 +272,9 @@ function List() {
           {/* 排序區塊 */}
           <DirectionButton onClick={sortByDateAsc}>
             {direction === 'asc' ? (
-              <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '25px' }} />
+              <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '20px' }} />
             ) : (
-              <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '25px' }} />
+              <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '20px' }} />
             )}
           </DirectionButton>
         </Navbar>
@@ -340,27 +361,38 @@ function List() {
         <ListBackground style={{ display: showSearchData ? 'none' : 'block' }}>
           {issues.map((issue, index) => (
             <ListCard
+              className='doodle'
               // 綁定infinite scroll
               ref={index === issues.length - 1 ? lastElementRef : undefined}
               key={issue.id}
             >
-              <Label>
+              <ListWord>
+                {' '}
+                REPONAME : {issue.repository.full_name}
+                <Label>
+                  {issue.labels.map((label) => (
+                    <button key={label.name} style={labelColorMap[label.name]}>
+                      {label.name}
+                    </button>
+                  ))}
+                </Label>{' '}
+              </ListWord>
+              {/* <Label>
                 {issue.labels.map((label) => (
                   <div key={label.name} style={labelColorMap[label.name]}>
                     {label.name}
                   </div>
                 ))}
-              </Label>{' '}
+              </Label>{' '} */}
               <br></br>
               {/* app.js set route,and all card is a link */}
               <Link
                 to={`/detail/${issue.repository.full_name}/${issue.number}`}
                 style={{ textDecoration: 'none' }}
               >
-                <ListWord> {issue.repository.full_name}</ListWord> <br />
-                <ListWord>{issue.title}</ListWord>
+                {/* <ListWord> REPONAME : {issue.repository.full_name}</ListWord> <br /> */}
+                <ListWord> ISSUES : {issue.title}</ListWord>
                 <ListBody>{issue.body}</ListBody>
-                (...read more)
                 <p
                   style={{
                     color: '#8E8E8E',

@@ -20,33 +20,28 @@ export const Background = styled.div`
 `;
 
 export const SearchInput = styled.input`
-  border-radius: 200px;
-  margin: 10px 10px 10px 100px;
-  width: 400px;
-  height: 30px;
+  margin: 10px 10px 10px 80px;
+  width: 455px;
+  height: 40px;
   type: text;
-  border: solid 2px #8e8e8e;
+  outline: none;
   @media screen and (max-width: 635px) {
     margin: 10px 10px 10px 30px;
-  }
-  &:hover {
-    cursor: help;
-    width: 550px;
-    height: 40px;
   }
 `;
 
 export const Filter = styled.select`
   margin-left: 250px;
   width: 95px;
-  height: 30px;
-  fontfamily: serif;
+  height: 32px;
+  font-family: Short Stack;
+  font-weight: 600;
   background-color: #f0f0f0;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  outline: none;
   &:hover {
-    transform: scale(1.1);
   }
   @media screen and (max-width: 1400px) {
     margin-left: 150px;
@@ -71,7 +66,6 @@ export const DirectionButton = styled.button`
   margin-left: 20px;
   border-radius: 200px;
   &:hover {
-    transform: scale(1.3);
   }
   @media screen and (max-width: 840px) {
     margin-left: 5px;
@@ -100,7 +94,7 @@ export const HintWord = styled.p`
 `;
 
 export const CreateButton = styled.button`
-  font-family: serif;
+  font-family: Short Stack;
   font-size: 23px;
   border: none;
   width: 120px;
@@ -138,7 +132,7 @@ export const Img = styled.img`
 `;
 
 export const ListBackground = styled.div`
-  font-family: serif;
+  font-family: Short Stack;
   font-size: 18px;
   font-weight: 800;
   margin: 3px 80px;
@@ -149,18 +143,20 @@ export const ListBackground = styled.div`
   }
 `;
 
-export const ListCard = styled.div`
-  border: solid 3px #b8b8dc;
+export const ListCard = styled.fieldset`
+  border-color: #b8b8dc;
   background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
+  // border-radius: 5px;
   height: 200px;
-  width: 920px;
+  min-width: 800px;
   padding: 15px;
+  margin-bottom: -6px;
+
   &:hover {
     background-color: rgba(172, 214, 255, 0.3);
     cursor: pointer;
     color: #0066cc;
-    transform: scale(1.03);
+    // transform: scale(1.03);
   }
   @media screen and (max-width: 1400px) {
     width: 800px;
@@ -197,8 +193,8 @@ export const ListBody = styled.div`
   white-space: nowrap;
 `;
 
-export const Label = styled.button`
-  margin: 3px 8px;
+export const Label = styled.span`
+  margin: 5px 8px;
   font-size: 20px;
   border: none;
   border-radius: 10px;
