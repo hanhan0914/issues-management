@@ -1,7 +1,5 @@
 ## 專案說明
-串接 github API 管理被assign的task(也就是github上的issues視為task)
-，列出所有assign到的task資訊，可進一步點進內頁瀏覽詳細資料；另有搜尋欄位快速查找task，也可以新建一個task（預設assign給自己）。
-希望這個專案能夠方便大家查詢在github上被分派到要處理的所有issues!
+#### 串接 github API 管理被assign的task(也就是github上的issues視為task)，列出所有assign到的task資訊，可進一步點進內頁瀏覽詳細資料；另有搜尋欄位快速查找task，也可以新建一個task（預設assign給自己）。希望這個專案能夠方便大家查詢在github上被分派到要處理的所有issues!
 ---
 
 #### 1.主頁點選 login now 
