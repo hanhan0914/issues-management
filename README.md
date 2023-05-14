@@ -23,10 +23,14 @@
 
 #### 使用 api:
 (1) GET https://github.com/login/oauth/authorize
+
 (2) POST https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token
+
 (3) GET https://api.github.com/issues
+
 (4) issues 相關 api：
 https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28
+
 (5)圖片引用出處：
 https://www.freepik.com/free-vector/creative-elements-storyboard-concept_10359594.htm#query=painted%20task&position=16&from_view=search&track=ais
 
