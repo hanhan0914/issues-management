@@ -1,20 +1,21 @@
 ## 專案說明
-串接 github API 管理被assign的任務(也就是issue)
-，列出所有assign到的issues資訊，可進一步點進內頁瀏覽詳細資料；另有搜尋欄位快速查找issues，也可以新建一個issue（預設assign給自己）。
+串接 github API 管理被assign的task(也就是github上的issues視為task)
+，列出所有assign到的task資訊，可進一步點進內頁瀏覽詳細資料；另有搜尋欄位快速查找task，也可以新建一個task（預設assign給自己）。
 希望這個專案能夠方便大家查詢在github上被分派到要處理的所有issues!
 
-1.主頁點選 login now 
+### 1.主頁點選 login now 
 <img width="1392" alt="image" src="https://github.com/hanhan0914/issues-management/assets/91658568/5ac077d6-e9ce-4bab-beb2-97d846cb412b">
 
-2.進入登入 github 取得權限頁面 > loading畫面
+### 2.進入登入 github 取得權限頁面 > loading畫面
 <img width="494" alt="image" src="https://github.com/hanhan0914/issues-management/assets/91658568/5ca029d4-72f2-4e3f-8194-326fd62791f9">
 
-3.主列表頁
-紅線框：搜尋欄位 及 issues list
-藍線框：依issues標籤篩選filter、依時間排序鍵、新增issues按鈕
+### 3.主列表頁
+### 紅線框：搜尋欄位 及 task list
+### 藍線框：依task標籤篩選filter、依時間排序鍵、新增issues按鈕
 <img width="1351" alt="image" src="https://github.com/hanhan0914/issues-management/assets/91658568/4772b663-f795-42bd-af1c-243237ee10ea">
 
-3.task 詳細頁面可修改 task 內容/刪除 task/close 視同刪除 task，另有連結鍵可直接連結到該 github repo 頁面查看更完整資訊。
+### 4.詳細資訊頁面可瀏覽task資訊、修改內容、刪除task
+### 在修改狀態下將標籤改成close 視同刪除task，另有連結鍵可直接連結到該 github repo 頁面查看更完整資訊。
 
 使用 api:
 (1) GET https://github.com/login/oauth/authorize
