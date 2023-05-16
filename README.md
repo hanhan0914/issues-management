@@ -11,11 +11,14 @@
 #### 3.主列表頁
 ##### 紅線框：搜尋欄位 及 task list
 ##### 藍線框：依task標籤篩選filter、依時間排序鍵、新增issues按鈕
+##### 背景圖片來源：https://www.freepik.com/free-vector/watercolor-background_7655630.htm#query=colorful&position=27&from_view=search&track=sph
 <img width="1351" alt="image" src="https://github.com/hanhan0914/issues-management/assets/91658568/4772b663-f795-42bd-af1c-243237ee10ea">
 
 #### 4.詳細資訊頁面
 ##### 可瀏覽task資訊、修改內容、刪除task
 ##### 另有連結鍵可直接連結到該 github repo 頁面查看更完整資訊。
+##### 背景圖片來源：https://www.freepik.com/free-photo/colorful-block-print-frame-beige-background_15607062.htm#page=4&query=colorful&position=29&from_view=search&track=sph
+
 ![image](https://github.com/hanhan0914/issues-management/assets/91658568/7ef41741-c7c5-4c0d-87d6-2b16f4f38261)
 ---
 
