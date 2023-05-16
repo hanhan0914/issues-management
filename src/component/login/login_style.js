@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Title = styled.div`
-  font-family: serif;
+  font-family: Comic Sans MS;
   font-size: 90px;
   font-weight: bolder;
   margin: 50px;
@@ -9,6 +9,7 @@ export const Title = styled.div`
   height: 80px;
   line-height: 0.8;
 
+  width: 900px;
   @media screen and (max-width: 825px) {
     height: 130px;
     // word-wrap: break-word;
@@ -44,7 +45,7 @@ export const LoginButton = styled.button`
   font-weight: border;
   background-color: transparent;
   font-size: 35px;
-  font-family: serif;
+  font-family: Comic Sans MS;
   color: white;
   border: none;
   border-radius: 15px;
@@ -52,7 +53,7 @@ export const LoginButton = styled.button`
 
 export const Background = styled.div`
   background-image: linear-gradient(to right, #1f1c2c, #928dab);
-  height: 100%;
+  height: 500px;
 `;
 
 //linear-gradient(to right, #283048, #859398)

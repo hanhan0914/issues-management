@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
-  background-color: rgba(201, 192, 211);
   width: 100%;
-  height: 100vh;
+  height: 100%;
+
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -13,27 +13,31 @@ export const Background = styled.div`
 
 export const Backbutton = styled.div`
   position: absolute;
-  top: 8%;
+  top: 12%;
   left: 120px;
   font-size: 25px;
   font-weight: 800;
 `;
 
-export const Body = styled.div`
-  background-color: rgba(255, 255, 255, 0.7);
-  width: 800px;
-  height: 550px;
+export const Body = styled.fieldset`
+  background-color: rgba(255, 255, 255, 0.85);
+  width: 900px;
+  height: 600px;
   z-index: 10;
-  border: solid 2px #7a7281;
-  border-radius: 10px;
+  // border: solid 2px #7a7281;
+  font-family: Comic Sans MS;
   @media screen and (max-width: 807px) {
     width: 700px;
     bottom: 550px;
   }
 `;
 export const Edit = styled.div`
-  margin-left: 580px;
+  margin-left: 570px;
   margin-top: 3px;
+  // position: absolute;
+  // right: 0;
+  // top: 0px;
+
   @media screen and (max-width: 807px) {
     margin-left: 500px;
     margin-top: 3px;
@@ -58,6 +62,7 @@ export const Editbutton = styled.button`
   font-weight: bold;
   font-family: serif;
   cursor: pointer;
+
   @media screen and (max-width: 632px) {
     width: 60px;
     height: 30px;
@@ -67,30 +72,38 @@ export const Editbutton = styled.button`
 export const Title = styled.div`
   width: 500px;
   height: 50px;
-  margin-left: 10px;
+
   padding: 10px;
   font-size: 40px;
   text-align: center;
   color: #484891;
-  font-family: serif;
+  text-align: left;
+  font-weight: 900;
+  margin-top: 10px;
 `;
 
 export const Label = styled.div`
-  margin-top: -10px;
   font-size: 20px;
   border-radius: 10px;
-  width: 150px;
+  // width: 150px;
   //   text-align: center;
   font-family: serif;
+
   border: none;
+
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  top: -55px;
 `;
 
 export const Bodyword = styled.div`
-  width: 400px;
-  height: 400px;
-  margin: 40px 20px;
+  width: 700px;
+  height: 370px;
+  padding: 20px;
+  margin: 15px auto;
   font-size: 18px;
-  font-family: serif;
+  font-family: Comic Sans MS;
 `;
 
 export const InputTitle = styled.input`
@@ -99,10 +112,11 @@ export const InputTitle = styled.input`
   border: solid 1px #9d9d9d;
   margin-left: 20px;
   padding: 10px;
-  font-size: 40px;
+  font-size: 50px;
   text-align: center;
   border-radius: 5px;
   background-color: transparent;
+  outline: none;
 `;
 
 export const Select = styled.select`
@@ -118,13 +132,14 @@ export const Select = styled.select`
 export const InputBody = styled.textarea`
   width: 500px;
   height: 300px;
-  border: solid 1px #9d9d9d;
+  outline: none;
   margin: 10px 20px;
   border-radius: 5px;
   background-color: transparent;
+  font-family: Comic Sans MS;
 `;
 
-export const Popup = styled.div`
+export const Popup = styled.fieldset`
   width: 300px;
   height: 150px;
   border: solid 2px #408080;

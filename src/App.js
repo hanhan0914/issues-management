@@ -1,6 +1,7 @@
 import React, { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import Navbar from './component/Navbar/navbar';
 import Login from './component/login/login';
+
 import List from './component/list/list';
 import Detail from './component/detail/detail';
 import Callback from './component/token/callback';
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Login />}></Route>
           <Route path='/loading' element={<Callback />}></Route>
+
           <Route path='/list' element={<List />}></Route>
           <Route path='/detail/:full_name/:repo/:number' element={<Detail />}></Route>
         </Routes>

@@ -41,7 +41,7 @@ function Callback() {
           style={{
             fontWeight: '700',
             fontSize: '50px',
-            fontFamily: 'serif',
+            fontFamily: 'Comic Sans MS',
             width: '300px',
             height: '20px',
             margin: '0 auto',

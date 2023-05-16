@@ -7,16 +7,13 @@ import { useForm } from 'react-hook-form';
 import { Form, Button } from 'semantic-ui-react';
 //form表單驗證
 import 'wired-elements';
-
-// import { WiredCombo } from 'wired-elements';
-// import { WiredSearchInput } from 'wired-elements';
-
+import moment from 'moment';
+import 'moment-timezone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMagnifyingGlass,
   faArrowDownWideShort,
   faArrowUpWideShort,
-  faArrowPointer,
   faCaretLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,8 +24,7 @@ import {
   DirectionButton,
   FormBackground,
   HintWord,
-  CreateButton,
-  Img,
+  CreateButtontest,
   ListBackground,
   ListCard,
   ListWord,
@@ -44,28 +40,40 @@ const labelColorMap = {
     color: 'white',
     borderRadius: '5px',
     width: '65px',
-    fontFamily: 'Short Stack',
+    fontFamily: 'Comic Sans MS',
+    marginLeft: '400px',
+    height: '35px',
+    lineHeight: '35px',
   },
   'in progress': {
     backgroundColor: '#AE57A4',
     color: 'white',
     borderRadius: '5px',
     width: '150px',
-    fontFamily: 'Short Stack',
+    fontFamily: 'Comic Sans MS',
+    marginLeft: '367px',
+    height: '35px',
+    lineHeight: '12px',
   },
   done: {
     backgroundColor: '#0080FF',
     color: 'white',
     borderRadius: '5px',
     width: '70px',
-    fontFamily: 'Short Stack',
+    fontFamily: 'Comic Sans MS',
+    marginLeft: '462px',
+    height: '35px',
+    lineHeight: '12px',
   },
   bug: {
     backgroundColor: 'red',
     color: 'white',
     borderRadius: '5px',
     width: '65px',
-    fontFamily: 'Short Stack',
+    fontFamily: 'Comic Sans MS',
+    marginLeft: '467px',
+    height: '35px',
+    lineHeight: '12px',
   },
 };
 
@@ -127,7 +135,7 @@ function List() {
       });
 
       const res = issuesData;
-      // console.log('res', issuesData);
+      console.log('res', issuesData);
       setIssues((issues) => [...issues, ...res]);
       // add new data to issues(array) and map it ,render to ui
     } catch (error) {
@@ -214,9 +222,9 @@ function List() {
       <Background
         style={{
           minHeight: '100vh',
-          padding: '20px 0',
-          backgroundImage: 'url(images/background2.jpg)',
-          fontFamily: 'Short Stack',
+          backgroundSize: '100% 100%',
+          backgroundImage: 'url(images/listbackground2.jpg)',
+          // fontFamily: 'Short Stack',
         }}
         className='doodle'
       >
@@ -225,8 +233,8 @@ function List() {
             onChange={(e) => {
               setKeyword(e.target.value);
             }}
+            style={{ fontFamily: 'Comic Sans MS', fontSize: '20px', fontWeight: '500' }}
           />
-
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             style={{
@@ -244,18 +252,30 @@ function List() {
             }}
           />
 
+          <span
+            style={{
+              fontSize: '20px',
+              fontFamily: 'Comic Sans MS',
+              width: '10px',
+              marginLeft: '155px',
+            }}
+          >
+            Label
+          </span>
           <Filter
             onChange={(e) => {
               setIssues([]);
               setPage(1);
               setFilterLabel(`${e.target.value}`);
             }}
+            style={{ fontFamily: 'Comic Sans MS' }}
           >
             <option value=''>All</option>
             <option value='open'> open </option>
             <option value='in progress'> in progress</option>
             <option value='done'> done</option>
           </Filter>
+
           {/* // <wired-combo
           //   onChange={(e) => {
           //     setIssues([]);
@@ -268,15 +288,20 @@ function List() {
           //   <wired-item value='in progress'>in progress</wired-item>
           //   <wired-item value='done'>done</wired-item>
           // </wired-combo> */}
-
           {/* 排序區塊 */}
           <DirectionButton onClick={sortByDateAsc}>
             {direction === 'asc' ? (
-              <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '20px' }} />
+              <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '16px' }} />
             ) : (
-              <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '20px' }} />
+              <FontAwesomeIcon icon={faArrowUpWideShort} style={{ fontSize: '16px' }} />
             )}
           </DirectionButton>
+          <CreateButtontest
+            onClick={() => setAddTask(true)}
+            style={{ zIndex: 1, fontFamily: 'Comic Sans MS' }}
+          >
+            Create Task
+          </CreateButtontest>
         </Navbar>
 
         {/* form create new task */}
@@ -287,6 +312,7 @@ function List() {
               <input
                 placeholder='Repo Name'
                 type='text'
+                style={{ fontFamily: 'Comic Sans MS' }}
                 // onChange={(e) => {
                 //   setRepo(e.target.value);
                 // }}  use register to get vaule,and may console data,just take data to call api (create new task)
@@ -299,6 +325,7 @@ function List() {
               <input
                 placeholder='Title'
                 type='text'
+                style={{ fontFamily: 'Comic Sans MS' }}
                 {...register('titleName', { required: true })}
               ></input>
             </Form.Field>
@@ -311,6 +338,7 @@ function List() {
                   setLabelsName([...labelsName, e.target.value]);
                 }}
                 {...register('label', {})}
+                style={{ fontFamily: 'Comic Sans MS' }}
               >
                 <option value='open'> open </option>
                 <option value='in progress'> in progress</option>
@@ -320,42 +348,27 @@ function List() {
             <Form.Field>
               <label>Descriptions</label>
               <textarea
-                style={{ height: '150px' }}
+                style={{ height: '150px', fontFamily: 'Comic Sans MS' }}
                 placeholder='Descriptions'
                 type='text'
                 {...register('body', { required: true, minLength: 30 }, {})}
               ></textarea>
             </Form.Field>
             {errors.body && (
-              <HintWord>
+              <HintWord style={{ fontFamily: 'Comic Sans MS' }}>
                 Please input the Descriptions
                 {/* </p> */}
               </HintWord>
             )}
-            <Button type='submit'>Submit</Button>
-            <Button onClick={() => setAddTask(false)}>cancel</Button>
+            <Button type='submit' style={{ fontFamily: 'Comic Sans MS' }}>
+              Submit
+            </Button>
+            <Button onClick={() => setAddTask(false)} style={{ fontFamily: 'Comic Sans MS' }}>
+              {' '}
+              cancel
+            </Button>
           </Form>
         </FormBackground>
-
-        {/* create task 按鈕 */}
-        <CreateButton onClick={() => setAddTask(true)} style={{ zIndex: 1 }}>
-          Create Task
-        </CreateButton>
-
-        <FontAwesomeIcon
-          icon={faArrowPointer}
-          beatFade
-          style={{
-            position: 'fixed',
-            right: '100px',
-            bottom: '145px',
-            fontSize: '40px',
-            color: '#408080',
-            zIndex: '1',
-          }}
-        />
-
-        <Img src='images/cat2.png'></Img>
 
         {/*主列表區塊  */}
         <ListBackground style={{ display: showSearchData ? 'none' : 'block' }}>
@@ -366,47 +379,38 @@ function List() {
               ref={index === issues.length - 1 ? lastElementRef : undefined}
               key={issue.id}
             >
-              <ListWord>
-                {' '}
-                REPONAME : {issue.repository.full_name}
-                <Label>
-                  {issue.labels.map((label) => (
-                    <button key={label.name} style={labelColorMap[label.name]}>
-                      {label.name}
-                    </button>
-                  ))}
-                </Label>{' '}
-              </ListWord>
-              {/* <Label>
-                {issue.labels.map((label) => (
-                  <div key={label.name} style={labelColorMap[label.name]}>
-                    {label.name}
-                  </div>
-                ))}
-              </Label>{' '} */}
-              <br></br>
-              {/* app.js set route,and all card is a link */}
               <Link
                 to={`/detail/${issue.repository.full_name}/${issue.number}`}
                 style={{ textDecoration: 'none' }}
               >
-                {/* <ListWord> REPONAME : {issue.repository.full_name}</ListWord> <br /> */}
+                <ListWord>
+                  {' '}
+                  REPOSITORY : {issue.repository.full_name}
+                  <Label>
+                    {issue.labels.map((label) => (
+                      <button key={label.name} style={labelColorMap[label.name]}>
+                        {label.name}
+                      </button>
+                    ))}
+                  </Label>{' '}
+                </ListWord>
+
                 <ListWord> ISSUES : {issue.title}</ListWord>
                 <ListBody>{issue.body}</ListBody>
                 <p
                   style={{
                     color: '#8E8E8E',
-                    margin: ' 20px 10px',
+                    position: 'absolute',
+                    bottom: '1px',
                     fontSize: '18px',
+                    fontFamily: 'Comic Sans MS',
                   }}
                 >
-                  {issue.created_at}{' '}
+                  {moment.utc(issue.created_at).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss')}{' '}
                 </p>
               </Link>
             </ListCard>
           ))}
-          {/* <div ref={loadingRef}>loading...</div> */}
-          {/* </div> */}
         </ListBackground>
 
         {/* 搜尋結果 */}
@@ -431,36 +435,71 @@ function List() {
           已搜尋到結果如下
         </SearchHint>
 
-        <ListBackground style={{ width: '100%', height: '100vh', position: 'fixed' }}>
+        {/* <ListBackground style={{ width: '100%', height: '100vh', position: 'fixed' }}> */}
+        <ListBackground style={{ display: showSearchData ? 'block' : 'none' }}>
           {searchData.map((item) => (
-            <ListCard key={item.number}>
-              <Label>
-                {item.labels.map((label) => (
-                  <span key={label.name} style={labelColorMap[label.name]}>
-                    {label.name}
-                  </span>
-                ))}
-              </Label>{' '}
-              <br></br>
+            // <ListCard key={item.number}>
+            //   <Label>
+            //     {item.labels.map((label) => (
+            //       <span key={label.name} style={labelColorMap[label.name]}>
+            //         {label.name}
+            //       </span>
+            //     ))}
+            //   </Label>{' '}
+            //   <br></br>
+            //   <Link
+            //     to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
+            //       item.number
+            //     }`}
+            //   >
+            //     <ListWord>{item.repository_url.split('https://api.github.com/repos/')[1]}</ListWord>
+            //     <br />
+            //     <ListWord>{item.title}</ListWord>
+            //     <ListBody>{item.body}</ListBody>
+            //     (...read more)
+            //     <p
+            //       style={{
+            //         color: '#8E8E8E',
+            //         position: 'absolute',
+            //         bottom: '1px',
+            //         fontSize: '18px',
+            //         fontFamily: 'Comic Sans MS',
+            //       }}
+            //     >
+            //       {moment.utc(item.created_at).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss')}{' '}
+            //     </p>{' '}
+            //   </Link>
+            // </ListCard>
+
+            <ListCard className='doodle' key={item.number}>
               <Link
                 to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
                   item.number
                 }`}
               >
-                <ListWord>{item.repository_url.split('https://api.github.com/repos/')[1]}</ListWord>
-                <br />
-                <ListWord>{item.title}</ListWord>
+                <Label>
+                  {item.labels.map((label) => (
+                    <button key={label.name} style={labelColorMap[label.name]}>
+                      {label.name}
+                    </button>
+                  ))}
+                </Label>
+                <ListWord>
+                  REPONAME : {item.repository_url.split('https://api.github.com/repos/')[1]}
+                </ListWord>
+                <ListWord> ISSUES : {item.title}</ListWord>
                 <ListBody>{item.body}</ListBody>
-                (...read more)
                 <p
                   style={{
                     color: '#8E8E8E',
-                    margin: ' 20px 10px',
+                    position: 'absolute',
+                    bottom: '0px',
                     fontSize: '18px',
+                    fontFamily: 'Comic Sans MS',
                   }}
                 >
-                  {item.created_at}
-                </p>{' '}
+                  {moment.utc(item.created_at).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss')}{' '}
+                </p>
               </Link>
             </ListCard>
           ))}

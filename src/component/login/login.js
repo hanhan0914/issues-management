@@ -14,14 +14,15 @@ function Login() {
     <>
       <Title>Issues Management</Title>
 
-      <Background>
+      <Background
+        style={{ backgroundImage: 'url(images/loginpage.jpg)', backgroundSize: '100% 500px' }}
+      >
         <LoginButton>
-          Login Now
           <a
             style={{ textDecoration: 'none' }}
             href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${REDIRECT_URI}`}
           >
-            &nbsp;
+            Login Now &nbsp;
             <FontAwesomeIcon icon={faRightToBracket} />
           </a>
         </LoginButton>
