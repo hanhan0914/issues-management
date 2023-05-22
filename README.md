@@ -19,7 +19,8 @@
 ##### 另有連結鍵可直接連結到該 github repo 頁面查看更完整資訊。
 ##### 背景圖片來源：https://www.freepik.com/free-photo/colorful-block-print-frame-beige-background_15607062.htm#page=4&query=colorful&position=29&from_view=search&track=sph
 
-![Uploading image.png…]()
+<img width="1435" alt="image" src="https://github.com/hanhan0914/issues-management/assets/91658568/3734a31b-5a24-41f2-94d0-f7a41cc3201e">
+
 ---
 
 #### 使用 api:
