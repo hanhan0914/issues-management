@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Cookie from 'universal-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
+import { UserContext } from '../../App';
 export const cookies = new Cookie();
 
 function Callback() {
@@ -11,6 +12,7 @@ function Callback() {
   // eslint-disable-next-line no-undef
   const client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
   const navigate = useNavigate();
+  const { dispatch } = useContext(UserContext);
 
   useEffect(() => {
     const code =
@@ -26,6 +28,7 @@ function Callback() {
       });
 
       cookies.set('authToken', `${res.data['access_token']}`, { path: '/' });
+      dispatch({ type: 'success' });
       navigate('/list');
     };
 

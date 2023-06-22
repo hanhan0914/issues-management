@@ -242,3 +242,16 @@ export const Navbar = styled.div`
     background-color: #b8b8dc;
   }
 `;
+
+export const UserName = styled.button`
+  font-size: 25px;
+  border: none;
+  width: 130px;
+  border-radius: 50%;
+  background-color: #95caca;
+  color: white;
+  font-weight: 900;
+  font-family: Comic Sans MS;
+  cursor: pointer;
+  margin-left: 20px;
+`;

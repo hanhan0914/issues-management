@@ -3,6 +3,9 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 // 引入Ｃookies 變數已存在cookies裡面了～
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../../App';
+
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'semantic-ui-react';
 //form表單驗證
@@ -32,6 +35,8 @@ import {
   Label,
   SearchHint,
   Navbar,
+
+  // UserName,
 } from './list_style';
 // labelcolor設置->object
 const labelColorMap = {
@@ -81,27 +86,28 @@ function List() {
   const cookies = new Cookies();
   //api:Authorization: `Bearer ${cookies.get('authToken')}`需要token
   // token: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
+  const { dispatch } = useContext(UserContext);
+
   const [page, setPage] = useState(1);
   const [direction, setDirection] = useState('desc');
   const [filterLabel, setFilterLabel] = useState(''); // '' | 'done' | 'in progress'
   const [issues, setIssues] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const [addTask, setAddTask] = useState(false);
-  // const [title, setTitle] = useState();
   const [labelsName, setLabelsName] = useState([]);
-  // const [body, setBody] = useState();
-  // const [repo, setRepo] = useState();
   const [keyword, setKeyword] = useState();
   const [showSearchData, setShowSearchData] = useState(false);
   const observer = useRef(null);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   // 3 callback reference:each render create new
   // lastElementRef(null)
   // lastElementRef(DOMElement)
   const lastElementRef = useCallback(
     (node) => {
       //no duplicated data : when taking data return nothing(don't do anything)
-      if (issues.length < page * 8) return;
+      // if (issues.length < page * 8) return; // if (hasMore = false) return;
+      if (loading) return;
 
       //don't take data:stop to observe 避免觸發observer callback function
       if (observer.current) {
@@ -110,15 +116,16 @@ function List() {
       //create new IntersectionObserver 避免取到舊值
       observer.current = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          setPage((page) => page + 1);
+          setPage((prevPage) => prevPage + 1);
         }
       });
       //element!==null 將element納入observer的觀察對象。
+
       if (node) {
         observer.current.observe(node);
       }
     },
-    [issues, page],
+    [loading],
   );
 
   // 1 list data:api(List issues assigned to the authenticated user)
@@ -136,15 +143,48 @@ function List() {
 
       const res = issuesData;
       console.log('res', issuesData);
+      console.log('myusername', issuesData[0].assignee.login);
+      dispatch({ type: 'success', payload: issuesData[0].assignee.login });
+
+      setLoading(false); //新
       setIssues((issues) => [...issues, ...res]);
       // add new data to issues(array) and map it ,render to ui
     } catch (error) {
       console.log(error);
+      setError(true); //新
     }
   };
 
+  //以下新
+
+  // const getList = async () => {
+  //   try {
+  //     const { data: issuesData } = await axios({
+  //       method: 'get',
+  //       url: `https://api.github.com/issues?page=${page}&per_page=8&labels=${filterLabel}&direction=${direction}`,
+  //       headers: {
+  //         accept: 'application/json',
+  //         Authorization: `Bearer ${cookies.get('authToken')}`,
+  //         'If-None-Match': '',
+  //       },
+  //     });
+
+  //     const res = issuesData;
+  //     console.log('res', issuesData);
+  //     // setHasMore(issuesData.length > 0)
+  //     setIssues((issues) => [...issues, ...res]);
+  //     // add new data to issues(array) and map it ,render to ui
+  //     setHasMore(res.data.docs.length > 0); //新
+  //     setLoading(false); //新
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   // 1 first render: getList() default page=1,[change] re-render
   useEffect(() => {
+    setLoading(true); //新
+    setError(false); //新
     console.log('page', page);
     getList();
   }, [page, filterLabel, direction]);
@@ -276,19 +316,6 @@ function List() {
             <option value='done'> done</option>
           </Filter>
 
-          {/* // <wired-combo
-          //   onChange={(e) => {
-          //     setIssues([]);
-          //     setPage(1);
-          //     setFilterLabel(`${e.target.value}`);
-          //   }}
-          // >
-          //   <wired-item value=''>all</wired-item>
-          //   <wired-item value='open'>open</wired-item>
-          //   <wired-item value='in progress'>in progress</wired-item>
-          //   <wired-item value='done'>done</wired-item>
-          // </wired-combo> */}
-          {/* 排序區塊 */}
           <DirectionButton onClick={sortByDateAsc}>
             {direction === 'asc' ? (
               <FontAwesomeIcon icon={faArrowDownWideShort} style={{ fontSize: '16px' }} />
@@ -302,6 +329,11 @@ function List() {
           >
             Create Task
           </CreateButtontest>
+
+          {/* <UserName style={{ zIndex: 1, fontFamily: 'Comic Sans MS' }}>
+            {' '}
+            Hi,{issues[0].assignee.login}
+          </UserName> */}
         </Navbar>
 
         {/* form create new task */}
@@ -438,39 +470,6 @@ function List() {
         {/* <ListBackground style={{ width: '100%', height: '100vh', position: 'fixed' }}> */}
         <ListBackground style={{ display: showSearchData ? 'block' : 'none' }}>
           {searchData.map((item) => (
-            // <ListCard key={item.number}>
-            //   <Label>
-            //     {item.labels.map((label) => (
-            //       <span key={label.name} style={labelColorMap[label.name]}>
-            //         {label.name}
-            //       </span>
-            //     ))}
-            //   </Label>{' '}
-            //   <br></br>
-            //   <Link
-            //     to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
-            //       item.number
-            //     }`}
-            //   >
-            //     <ListWord>{item.repository_url.split('https://api.github.com/repos/')[1]}</ListWord>
-            //     <br />
-            //     <ListWord>{item.title}</ListWord>
-            //     <ListBody>{item.body}</ListBody>
-            //     (...read more)
-            //     <p
-            //       style={{
-            //         color: '#8E8E8E',
-            //         position: 'absolute',
-            //         bottom: '1px',
-            //         fontSize: '18px',
-            //         fontFamily: 'Comic Sans MS',
-            //       }}
-            //     >
-            //       {moment.utc(item.created_at).tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss')}{' '}
-            //     </p>{' '}
-            //   </Link>
-            // </ListCard>
-
             <ListCard className='doodle' key={item.number}>
               <Link
                 to={`/detail/${item.repository_url.split('https://api.github.com/repos/')[1]}/${
@@ -504,6 +503,8 @@ function List() {
             </ListCard>
           ))}
         </ListBackground>
+        <div>{loading && 'Loading...'}</div>
+        <div>{error && 'Error'}</div>
       </Background>
     </>
   );
