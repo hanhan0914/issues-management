@@ -1,20 +1,26 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../App';
 import { User } from './layout_style';
-
-import { Nav } from './layout_style';
+import Cookies from 'universal-cookie';
+import { Nav, Dropdown, Ul, Li, LogoutButton } from './layout_style';
 
 function Layout() {
   const { state } = useContext(UserContext);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(!open);
   };
+  const cookie = new Cookies();
   const handleMenuOne = () => {
     // do something
     setOpen(false);
+
+    cookie.remove('authToken', { path: '/' });
+    console.log('cookie222', cookie.get('authToken'));
+    navigate('/');
   };
 
   console.log('userName', state.userName);
@@ -22,22 +28,7 @@ function Layout() {
   return (
     <>
       <Nav>
-        {/* {state.isLoggedIn ? (
-          <User onClick={handleOpen}>Hi , {state.userName}</User>
-          
-        ) : (
-          <User>您尚未登入唷！</User>
-        )}
-      </Nav> */}
-        <div
-          style={{
-            position: 'relative',
-            margin: '5px',
-            marginLeft: '80%',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <Dropdown>
           {state.isLoggedIn ? (
             <User onClick={handleOpen}>Hi,{state.userName}</User>
           ) : (
@@ -45,49 +36,14 @@ function Layout() {
           )}
 
           {open && state.isLoggedIn ? (
-            <ul
-              style={{
-                position: 'absolute',
-                bottom: '-90px',
-                left: '75px',
-                margin: '10px 0',
-                padding: '0',
-                backgroundColor: 'white',
-                border: '1px solid grey',
-                width: '150px',
-                height: '80px',
-              }}
-            >
-              <li
-                style={{
-                  margin: '10px',
-                  border: 'solid 1px black',
-                  backgroundColor: 'white',
-                }}
-              >
-                <button
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    textAlign: 'center',
-
-                    background: ' none',
-                    color: 'inherit',
-                    border: 'none',
-                    padding: '5px',
-                    margin: '0',
-                    font: 'inherit',
-                    cursor: 'pointer',
-                  }}
-                  onClick={handleMenuOne}
-                >
-                  LogOut
-                </button>
-              </li>
-            </ul>
+            <Ul>
+              <Li>
+                <LogoutButton onClick={handleMenuOne}>LogOut</LogoutButton>
+              </Li>
+            </Ul>
           ) : null}
           {open ? <div></div> : <div></div>}
-        </div>
+        </Dropdown>
       </Nav>
       <div className='my-page-body'>
         <Outlet />
