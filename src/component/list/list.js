@@ -145,7 +145,7 @@ function List() {
       console.log('res', issuesData);
       console.log('myusername', issuesData[0].assignee.login);
       dispatch({ type: 'success', payload: issuesData[0].assignee.login });
-
+      console.log('token', cookies.get('authToken'));
       setLoading(false); //新
       setIssues((issues) => [...issues, ...res]);
       // add new data to issues(array) and map it ,render to ui
