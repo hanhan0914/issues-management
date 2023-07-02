@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 import { Nav, Dropdown, Ul, Li, LogoutButton } from './layout_style';
 
 function Layout() {
-  const { state } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -20,6 +20,7 @@ function Layout() {
 
     cookie.remove('authToken', { path: '/' });
     console.log('cookie222', cookie.get('authToken'));
+    dispatch({ type: 'logout' });
     navigate('/');
   };
 

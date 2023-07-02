@@ -18,7 +18,7 @@ function Login() {
         <LoginButton>
           <a
             style={{ textDecoration: 'none' }}
-            href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${REDIRECT_URI}`}
+            href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${REDIRECT_URI}&prompt=consent`}
           >
             Login Now &nbsp;
             <FontAwesomeIcon icon={faRightToBracket} />

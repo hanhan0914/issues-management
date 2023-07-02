@@ -12,7 +12,7 @@ function Callback() {
   // eslint-disable-next-line no-undef
   const client_secret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
   const navigate = useNavigate();
-  const { dispatch } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
 
   useEffect(() => {
     const code =
@@ -21,7 +21,9 @@ function Callback() {
     const tokenResponse = async () => {
       const res = await axios({
         method: 'post',
-        url: `https://reverse-node.onrender.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
+        url: state.isLoggedIn
+          ? `https://reverse-node.onrender.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`
+          : `https://reverse-node.onrender.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&prompt=consent`,
         headers: {
           accept: 'application/json',
         },
@@ -34,6 +36,8 @@ function Callback() {
 
     tokenResponse();
   }, []);
+
+  console.log('狀態', state.isLoggedIn);
 
   return (
     <>
