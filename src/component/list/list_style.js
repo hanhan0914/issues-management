@@ -16,6 +16,8 @@ export const SearchBox = styled.div`
 export const Background = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 100vh;
+  background-size: 100% 100%;
 `;
 
 export const SearchInput = styled.input`
@@ -24,7 +26,6 @@ export const SearchInput = styled.input`
   height: 40px;
   type: text;
   outline: none;
-  font-family: Comic Sans MS;
   @media screen and (max-width: 635px) {
     margin: 10px 10px 10px 30px;
   }

@@ -5,7 +5,6 @@ import Cookies from 'universal-cookie';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../App';
-
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'semantic-ui-react';
 //form表單驗證
@@ -35,10 +34,8 @@ import {
   Label,
   SearchHint,
   Navbar,
-
-  // UserName,
 } from './list_style';
-// labelcolor設置->object
+
 const labelColorMap = {
   open: {
     backgroundColor: '	#00BB00',
@@ -87,7 +84,6 @@ function List() {
   //api:Authorization: `Bearer ${cookies.get('authToken')}`需要token
   // token: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
   const { dispatch } = useContext(UserContext);
-
   const [page, setPage] = useState(1);
   const [direction, setDirection] = useState('desc');
   const [filterLabel, setFilterLabel] = useState(''); // '' | 'done' | 'in progress'
@@ -100,6 +96,7 @@ function List() {
   const observer = useRef(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   // 3 callback reference:each render create new
   // lastElementRef(null)
   // lastElementRef(DOMElement)
@@ -261,10 +258,7 @@ function List() {
     <>
       <Background
         style={{
-          minHeight: '100vh',
-          backgroundSize: '100% 100%',
           backgroundImage: 'url(images/listbackground2.jpg)',
-          // fontFamily: 'Short Stack',
         }}
         className='doodle'
       >
@@ -329,11 +323,6 @@ function List() {
           >
             Create Task
           </CreateButtontest>
-
-          {/* <UserName style={{ zIndex: 1, fontFamily: 'Comic Sans MS' }}>
-            {' '}
-            Hi,{issues[0].assignee.login}
-          </UserName> */}
         </Navbar>
 
         {/* form create new task */}
@@ -503,7 +492,7 @@ function List() {
             </ListCard>
           ))}
         </ListBackground>
-        <div>{loading && 'Loading...'}</div>
+        <div style={{ fontFamily: 'Comic Sans MS' }}>{loading && 'Loading...'}</div>
         <div>{error && 'Error'}</div>
       </Background>
     </>
