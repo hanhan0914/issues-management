@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useReducer } from 'react';
-// import { AuthContext } from './authprovider';
 import Layout from './component/Navbar/layout';
 import Login from './component/login/login';
 import List from './component/list/list';
