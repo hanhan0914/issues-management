@@ -5,6 +5,8 @@ import { UserContext } from '../../App';
 import { User } from './layout_style';
 import Cookies from 'universal-cookie';
 import { Nav, Dropdown, Ul, Li, LogoutButton } from './layout_style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Layout() {
   const { state, dispatch } = useContext(UserContext);
@@ -39,7 +41,10 @@ function Layout() {
           {open && state.isLoggedIn ? (
             <Ul>
               <Li>
-                <LogoutButton onClick={handleMenuOne}>LogOut</LogoutButton>
+                <LogoutButton onClick={handleMenuOne}>
+                  Log Out &nbsp;
+                  <FontAwesomeIcon icon={faRightToBracket} />
+                </LogoutButton>
               </Li>
             </Ul>
           ) : null}

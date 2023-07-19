@@ -15,7 +15,11 @@ export const User = styled.button`
   margin: 5px;
   margin-left: 20%;
   width: 200px;
-  height: 30px;
+  height: 25px;
+  background-color: #e6f1ed;
+  border-radius: 5px;
+  border: none;
+  font-family: Comic Sans MS;
 `;
 
 export const Dropdown = styled.div`
@@ -32,16 +36,17 @@ export const Ul = styled.ul`
   left: 75px;
   margin: 10px 0;
   padding: 0;
-  background-color: white;
-  border: 1px solid grey;
+  background-color: #e6f1ed;
+  border-radius: 5px;
   width: 150px;
   height: 80px;
 `;
 
 export const Li = styled.li`
   margin: 10px;
-  border: solid 1px black;
   background-color: white;
+  list-style: none;
+  font-family: Comic Sans MS;
 `;
 
 export const LogoutButton = styled.button`
